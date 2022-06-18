@@ -6,6 +6,7 @@ import '../../../../core/internationalization.dart';
 import '../../../../core/locales.g.dart';
 import '../../../interface/command.dart';
 import 'init_getxpattern.dart';
+import 'init_hasan.dart';
 import 'init_katteko.dart';
 
 class InitCommand extends Command {
@@ -14,15 +15,25 @@ class InitCommand extends Command {
 
   @override
   Future<void> execute() async {
-    final menu = Menu([
-      'GetX Pattern (by Kauê)',
-      'CLEAN (by Arktekko)',
-    ], title: 'Which architecture do you want to use?');
+    final menu = Menu(
+        ['GetX Pattern (by Kauê)', 'CLEAN (by Arktekko)', 'Hasan Hallak'],
+        title: 'Which architecture do you want to use?');
     final result = menu.choose();
 
-    result.index == 0
-        ? await createInitGetxPattern()
-        : await createInitKatekko();
+    // result.index == 0
+    //     ? await createInitGetxPattern()
+    //     : await createInitKatekko();
+    switch (result.index) {
+      case 0:
+        await createInitGetxPattern();
+        break;
+      case 1:
+        await createInitKatekko();
+        break;
+      default:
+        await createInitHasanPattern();
+        break;
+    }
     if (!PubspecUtils.isServerProject) {
       await ShellUtils.pubGet();
     }
